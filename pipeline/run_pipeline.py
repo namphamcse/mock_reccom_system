@@ -3,6 +3,7 @@ import json
 import os
 from datetime import datetime, timezone
 from uuid import uuid4
+from time import perf_counter
 
 from backend.db import init_db, records
 from backend.settings import layer
@@ -11,13 +12,16 @@ from pipeline.storage import append_bronze, read_bronze, write_parquet
 from pipeline.transform.clean_events import clean_events
 
 
-def run_pipeline(source="local", as_of=None, origin="synthetic"):
+def run_pipeline(source="local", as_of=None, origin="synthetic", metrics=None):
+    """Run ETL; optionally populate caller-owned benchmark timings and counts."""
+    started = perf_counter()
     init_db()
     run_id = uuid4().hex
     audit("pipeline.started", run_id=run_id, origin=origin, source=source)
     as_of = as_of or datetime.now(timezone.utc)
     if as_of.tzinfo is None:
         raise ValueError("as_of must include timezone")
+    initialized = perf_counter()
     if source == "local":
         # Snapshot is deduplicated against previous Bronze batches before appending.
         from pipeline.transform.normalize_events import normalize
@@ -32,12 +36,14 @@ def run_pipeline(source="local", as_of=None, origin="synthetic"):
         raise ValueError("source must be local or bronze")
     products, users = records("products"), records("users")
     raw = read_bronze(origin)
+    bronze_done = perf_counter()
     events, rejected = clean_events(raw, users, products, as_of, origin)
     write_parquet(events, layer("silver", origin) / "events.parquet")
     write_parquet(rejected, layer("silver", origin) / "rejected.parquet")
     audit("silver.validated", run_id=run_id, origin=origin, count=len(events), rejected=len(rejected), duplicates=len(raw)-len(events)-len(rejected))
     for row in rejected.itertuples():
         audit("silver.rejected", run_id=run_id, origin=origin, event_id=row.event_id, reason=row.reason)
+    silver_done = perf_counter()
     # Neutral data summaries: counts and sequences, no model scores or labels.
     import pandas as pd
     product_events = events[events.product_id.notna()]
@@ -63,6 +69,23 @@ def run_pipeline(source="local", as_of=None, origin="synthetic"):
     temp.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
     os.replace(temp, layer("gold", origin) / "manifest.json")
     audit("gold.published", run_id=run_id, origin=origin, count=len(counts), cutoff=manifest['as_of'], path=str(output))
+    finished = perf_counter()
+    if metrics is not None:
+        metrics.update({
+            "seconds": {
+                "initialize": initialized - started,
+                "bronze": bronze_done - initialized,
+                "silver": silver_done - bronze_done,
+                "gold": finished - silver_done,
+                "total": finished - started,
+            },
+            "quality": {
+                "input_events": len(raw), "accepted_events": len(events),
+                "rejected_events": len(rejected),
+                "duplicate_events": len(raw) - len(events) - len(rejected),
+                "rejection_reasons": rejected.reason.value_counts().to_dict(),
+            },
+        })
     return manifest
 
 
