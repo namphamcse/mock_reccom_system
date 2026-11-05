@@ -1,0 +1,16 @@
+[
+  {
+    "product_id": "P0001",
+    "brand": "DemoBrand",
+    "category": "Laptops",
+    "price_usd": 999,
+    "status": "placeholder"
+  },
+  {
+    "product_id": "P0002",
+    "brand": "DemoBrand",
+    "category": "Phones",
+    "price_usd": 499,
+    "status": "placeholder"
+  }
+]

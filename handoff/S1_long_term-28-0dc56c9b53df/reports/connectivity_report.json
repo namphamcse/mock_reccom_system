@@ -1,0 +1,10 @@
+{
+  "dataset_id": "S1_long_term-28-0dc56c9b53df",
+  "status": "placeholder",
+  "summary": "This file is a scaffold for connectivity or lineage validation output.",
+  "checks": {
+    "user_to_event_links": "pending",
+    "product_to_event_links": "pending",
+    "session_continuity": "pending"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "dataset_id": "S1_long_term-28-0dc56c9b53df",
+  "handoff_version": "1.0",
+  "status": "scaffold",
+  "created_at": "2026-11-05T00:00:00Z",
+  "owner": "data-orchestration",
+  "validation": {
+    "data_quality": "pending",
+    "connectivity": "pending"
+  },
+  "files": {
+    "data/users.json": "ready",
+    "data/products.json": "ready",
+    "data/events.jsonl": "ready",
+    "data/events.parquet": "placeholder",
+    "ground_truth/user_profiles.json": "ready",
+    "ground_truth/session_profiles.json": "ready",
+    "ground_truth/manifest.json": "ready",
+    "reports/data_quality_report.json": "ready",
+    "reports/connectivity_report.json": "ready"
+  }
+}

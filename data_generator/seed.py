@@ -8,7 +8,7 @@ from data_generator.generate_users import generate_users
 from data_generator.generate_products import generate_products
 
 
-def seed(users=1000, products=300, seed_value=42):
+def seed(users=3000, products=300, seed_value=42):
     init_db()
     datasets = {"users": generate_users(users, seed_value), "products": generate_products(products, seed_value)}
     with connect() as conn:
@@ -24,7 +24,7 @@ def seed(users=1000, products=300, seed_value=42):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--users", type=int, default=1000)
+    parser.add_argument("--users", type=int, default=3000)
     parser.add_argument("--products", type=int, default=300)
     parser.add_argument("--seed", type=int, default=42)
     args = parser.parse_args()

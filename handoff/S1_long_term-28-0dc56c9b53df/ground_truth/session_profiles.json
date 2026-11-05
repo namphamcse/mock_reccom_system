@@ -1,0 +1,11 @@
+{
+  "dataset_id": "S1_long_term-28-0dc56c9b53df",
+  "sessions": [
+    {
+      "session_id": "S0001",
+      "user_id": "U0001",
+      "top_category": "Laptops",
+      "status": "pending"
+    }
+  ]
+}

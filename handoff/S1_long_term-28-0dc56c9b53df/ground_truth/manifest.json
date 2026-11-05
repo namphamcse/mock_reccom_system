@@ -1,0 +1,9 @@
+{
+  "dataset_id": "S1_long_term-28-0dc56c9b53df",
+  "ground_truth_type": "synthetic",
+  "files": {
+    "user_profiles.json": "placeholder",
+    "session_profiles.json": "placeholder"
+  },
+  "notes": "Replace placeholder entries with actual ground-truth artifacts after generation."
+}

@@ -1,0 +1,15 @@
+{
+  "dataset_id": "S1_long_term-28-0dc56c9b53df",
+  "source": "synthetic",
+  "scenario": "S1",
+  "seed": 42,
+  "event_count": 100000,
+  "generated_at": "2026-11-05T00:00:00Z",
+  "notes": "Placeholder manifest for dataset handoff scaffolding. Replace with source provenance details after actual generation.",
+  "files": {
+    "data/users.json": "pending",
+    "data/products.json": "pending",
+    "data/events.jsonl": "pending",
+    "data/events.parquet": "pending"
+  }
+}

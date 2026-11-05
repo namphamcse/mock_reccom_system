@@ -1,0 +1,2 @@
+{"event_id":"evt_000001","user_id":"U0001","product_id":"P0001","event_name":"product_view","ts":"2026-01-01T00:00:00Z"}
+{"event_id":"evt_000002","user_id":"U0001","product_id":"P0002","event_name":"product_click","ts":"2026-01-01T00:00:15Z"}

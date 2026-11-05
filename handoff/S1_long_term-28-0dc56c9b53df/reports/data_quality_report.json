@@ -1,0 +1,10 @@
+{
+  "dataset_id": "S1_long_term-28-0dc56c9b53df",
+  "status": "placeholder",
+  "summary": "This file is a scaffold for data-quality validation output.",
+  "checks": {
+    "schema_validation": "pending",
+    "referential_integrity": "pending",
+    "event_hash_validation": "pending"
+  }
+}
